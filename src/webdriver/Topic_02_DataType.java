@@ -42,13 +42,11 @@ public class Topic_02_DataType {
 		
 		@Test
 		public void TC_03_Name() {
-			driver.get("https://demo.nopcommerce.com/search");
 			driver.findElement(By.name("advs")).click();
 		}
 		
 		@Test
 		public void TC_04_TagName() {
-			driver.get("https://demo.nopcommerce.com/search");
 			System.out.println("There are " + driver.findElements(By.tagName("input")).size() + " input tags in website");   
 		}
 		
@@ -62,9 +60,36 @@ public class Topic_02_DataType {
 		public void TC_06_PartialLinkText() {
 			driver.findElement(By.partialLinkText("Compare")).click();
 		}
-				
+		
+		@Test
+		public void TC_07_CSS() {
+			driver.get("https://demo.nopcommerce.com/register");
+			
+			//solution 1
+			driver.findElement(By.cssSelector("input#FirstName")).sendKeys("Quynh");
+			
+			//solution 2
+			driver.findElement(By.cssSelector("input[name = LastName]")).sendKeys("Pham");
+			
+			//solution 3
+			driver.findElement(By.cssSelector("input[id = Email]")).sendKeys("test123@yopmail.com");
+			
+		}
+		
+		@Test
+		public void TC_08_Xpath() {
+			//solution 1
+			driver.findElement(By.xpath("//input[@id = 'FirstName']")).sendKeys("Quynh1");
+			
+			//solution 2
+			driver.findElement(By.xpath("//input[@name = 'LastName']")).sendKeys("Pham1");
+			
+			//solution 3
+			driver.findElement(By.xpath("//label[text()='Email:']/following-sibling::input")).sendKeys("test123@yopmail.com");
+		}
+		
 		@AfterClass
 		public void afterClass() {
-			driver.close();
+//			driver.quit();
 		}
 }
