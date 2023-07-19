@@ -117,6 +117,31 @@ public class Topic_04_Xpath_Part_2 {
 		driver.findElement(By.xpath("//input[@id='email' and @title='Email Address' and @name='login[username]']")).sendKeys("test222@gmail.com");
 	}
 	
+	@Test
+	public void TC_11_Not() {
+		driver.get("https://demos.telerik.com/aspnet-ajax/ajaxloadingpanel/functionality/explicit-show-hide/defaultcs.aspx");
+		System.out.println(driver.findElement(By.xpath("//div[not(@style = 'display:none;')]//div[@class='raDiv']")).isDisplayed());
+	}
+	
+	@Test
+	public void TC_12_Inside_Parent() {
+		driver.get("https://automationfc.github.io/jquery-selectable/");
+		driver.findElement(By.xpath("//ol[@id='selectable']/li[2]")).getText();
+	}
+	
+	@Test
+	public void TC_13_Outside_Parent() {
+		driver.get("http://live.techpanda.org/index.php/mobile.html");
+		driver.findElement(By.xpath("(//span[text()='Add to Cart'])[3]")).click();
+	}
+	
+	@Test
+	public void TC_14_Last_Position() {
+		driver.get("https://automationfc.github.io/jquery-selectable/");
+		driver.findElement(By.xpath("//li[position()=5]")).getText();
+		driver.findElement(By.xpath("//li[last()]")).getText();
+	}
+	
 	@AfterClass 
 	public void AfterClass() {
 		driver.quit();
