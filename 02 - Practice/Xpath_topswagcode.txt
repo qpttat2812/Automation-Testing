@@ -1,0 +1,52 @@
+1. Select the plates
+//plate
+2. Select the bento boxes
+//bento
+3. Select the apple on a plate
+//plate/apple
+4. Select all elements
+//*
+5. Select all apples on any other element
+//*/apple
+6. Select the fancy plate
+//plate[@id='fancy']
+7. Select the apple on the plate
+//plate/apple
+8. Select the pickle on the fancy plate
+//plate[@id='fancy']/pickle
+9. Select the small apples
+//*[contains(@class,'small')]
+10. Select the small oranges
+//orange[contains(@class,'small')]
+11. Select the small oranges in the bentos
+//bento/orange[contains(@class, 'small')]
+12. Select all the plates and bentos
+//plate|//bento|/pickle
+13. Select everything on a plate
+//plate/*
+14. Select every apple that's next to a plate
+//apple/following-sibling::apple
+15. Select every pickle prior to the plate
+//plate/preceding-sibling::pickle
+16. Select the third pickle
+//(pickle)[2]
+17. Select the apple directly on a plate
+//plate/apple
+18. Select the small apple and the big orange
+//plate/apple | //plate/orange[last()]
+19. Select the last apple on each plate
+//plate/apple[last()] 
+20. Select the second last apple on each plate
+(//apple)[last()-1]
+21. Select the items for someone
+//*[@for]
+22. Select the plates for someone
+//plate[@for]
+23. Select Vitaly's meal
+//bento[@for='Vitaly']
+24. Select Hanna's meal on the fancy plate
+//plate[@id='fancy' and @for='Hanna']/apple
+25. Select the items for names that start with 'Sa'
+//*[starts-with(@for, 'Sa')]
+26. Select the items for names that end with 'ato'
+//*[substring(@for, string-length(@for) - string-length('ato') + 1 )= 'ato']
