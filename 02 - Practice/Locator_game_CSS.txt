@@ -1,0 +1,26 @@
+1. Select all titles
+h3*
+2. Select the description text
+#description
+3. Select active item list
+li.active
+4. Select only the button which is part of the toolbar
+div#toolbar>button
+5. Select the first div
+div:first-of-type
+6. Select the last div
+div:last-of-type
+7. Select the second element from the list
+ul>li:nth-of-type(2)
+8. Select element with text Oceans based on text
+h4:nth-of-type(3)
+9. Select the nickname textfield
+input[name='nickname']
+10. Select the username textfield
+input[name*='Username']
+11. Select the email textfield
+input[name*='Email']
+12. Select the password textfield
+input[name^='password']
+13. Select the Edit button related to row 678
+tr:nth-of-type(3)>td:nth-child(4)>button.edit
