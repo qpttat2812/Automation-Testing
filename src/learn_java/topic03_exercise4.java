@@ -14,28 +14,14 @@ public class topic03_exercise4 {
 		System.out.println("Enter a third the name:");
 		int c = myObj.nextInt();
 		
-		if (a >= b) {
-			if (b >= c) {
-				System.out.println("The largest number is " + a);
-			} 
-			else if (b < c) {
-				if (a > c) {
-					System.out.println("The largest number is " + a);
-				}
-				else {
-					System.out.println("The largest number is " + c);
-				}
-			}
+		if ((a > b) && (a > c)) {
+			System.out.println("The largest number is " + a);
+		}
+		else if (b > c) {
+			System.out.println("The largest number is " + b);
 		}
 		else {
-			if (b >= c) {
-				System.out.println("The largest number is " + b);
-			} 
-			else  {
-				 
-				System.out.println("The largest number is " + c);
-				
-			}
+			System.out.println("The largest number is " + c);
 		}
 
 
