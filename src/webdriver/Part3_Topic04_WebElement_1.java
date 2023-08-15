@@ -34,7 +34,7 @@ public class Part3_Topic04_WebElement_1 {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 	
-	//@Test
+	@Test
 	public void TC_01_CheckDisplayed() {
 		driver.get("https://automationfc.github.io/basic-form/index.html");
 		
@@ -70,7 +70,7 @@ public class Part3_Topic04_WebElement_1 {
 		}
 	}
 	
-	//@Test
+	@Test
 	public void TC_02_CheckEnabled() {
 		driver.get("https://automationfc.github.io/basic-form/index.html");
 		
@@ -182,10 +182,59 @@ public class Part3_Topic04_WebElement_1 {
 		
 	}
 	
+	@Test
+	public void TC_04_Register() {
+		driver.get("https://login.mailchimp.com/signup/");
+		
+		By passwordLocator = By.name("password");
+		
+		driver.findElement(By.cssSelector("#email")).sendKeys("automationtest2023@gmail.com");
+		
+		driver.findElement(passwordLocator).sendKeys("123");
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='number-char completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='lowercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='special-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='8-char not-completed']")).isDisplayed());
+		
+		
+		driver.findElement(passwordLocator).clear();
+		driver.findElement(passwordLocator).sendKeys("aaa");
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='number-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='lowercase-char completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='special-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='8-char not-completed']")).isDisplayed());
+		
+		driver.findElement(passwordLocator).clear();
+		driver.findElement(passwordLocator).sendKeys("ABC");
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='number-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='lowercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='special-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='8-char not-completed']")).isDisplayed());
+		
+		driver.findElement(passwordLocator).clear();
+		driver.findElement(passwordLocator).sendKeys("!@#$");
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='number-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='lowercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='special-char completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='8-char not-completed']")).isDisplayed());
+		
+		driver.findElement(passwordLocator).clear();
+		driver.findElement(passwordLocator).sendKeys("Automation");
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='number-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='lowercase-char completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='special-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='8-char completed']")).isDisplayed());
+	}
+	
 	@AfterClass
 	public void AfterClass() {
 		driver.quit();
-		
+
 	}
 	
 	public void sleepInSecond(long timeInSeconds) {
