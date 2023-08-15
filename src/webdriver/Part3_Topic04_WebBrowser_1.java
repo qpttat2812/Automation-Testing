@@ -101,9 +101,9 @@ public class Part3_Topic04_WebBrowser_1 {
 		driver.quit();
 	}
 	
-	public void sleepInSecond(int seconds){
+	public void sleepInSecond(long timeInSeconds){
 		try {
-			Thread.sleep(seconds * 1000);
+			Thread.sleep(timeInSeconds * 1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
