@@ -27,11 +27,13 @@ public class topic_06_Textbox_TextArea {
 	String employeeId;
 	String loginUserName = "Admin";
 	String loginPassword = "admin123";
-	String newUserName = "quynhpham123";
+	String newUserName = "quynhpham" + String.valueOf(randomNumber());
 	String newPassword = "quynh123";
+	String passportNumber = "1234-5678-9090";
 	By firstNameLocator = By.name("firstName");
 	By lastNameLocator = By.name("lastName");
-	By employeeIdLocator = By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div");
+	By employeeIdLocator = By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div/input");
+	
 	
 	@BeforeClass
 	public void BeforeClass() {
@@ -72,7 +74,6 @@ public class topic_06_Textbox_TextArea {
 		
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@class='box-content']/p")).getText().contains(emailValue));
 		
-//		System.out.println(driver.findElement(By.xpath("//div[@class='box-content']/p")).getText());
 	}
 	
 		
@@ -99,28 +100,43 @@ public class topic_06_Textbox_TextArea {
 		sleepInSecond(1);
 		
 		Assert.assertEquals(driver.getCurrentUrl(), "https://opensource-demo.orangehrmlive.com/web/index.php/pim/addEmployee");
+		sleepInSecond(5);
 		
 		//input employee first name, lastname, choose create login details
 		driver.findElement(firstNameLocator).sendKeys(firstName);
 		driver.findElement(lastNameLocator).sendKeys(lastName);
 		
-		employeeId = driver.findElement(employeeIdLocator).getText();
+		employeeId = driver.findElement(employeeIdLocator).getAttribute("value");
 		
 		driver.findElement(By.xpath("//p[text()='Create Login Details']/parent::div//span")).click();
 		
 		//input create user detail
-		driver.findElement(By.xpath("//label[text()='Username']/parent::div/following-sibling::div")).sendKeys(newUserName);
-		driver.findElement(By.xpath("//label[text()='Password']/parent::div/following-sibling::div")).sendKeys(newPassword);
-		driver.findElement(By.xpath("//label[text()='Confirm Password']/parent::div/following-sibling::div")).sendKeys(newPassword);
+		driver.findElement(By.xpath("//label[text()='Username']/parent::div/following-sibling::div/input")).sendKeys(newUserName);
+		driver.findElement(By.xpath("//label[text()='Password']/parent::div/following-sibling::div/input")).sendKeys(newPassword);
+		driver.findElement(By.xpath("//label[text()='Confirm Password']/parent::div/following-sibling::div/input")).sendKeys(newPassword);
 		driver.findElement(By.xpath("//button[contains(string(), 'Save')]")).click();
-		sleepInSecond(1);
+		sleepInSecond(10);
 		
 		Assert.assertTrue(driver.getCurrentUrl().contains("pim/viewPersonalDetails/empNumber/"));
 		
 		//verify new info of user
-		Assert.assertTrue(driver.findElement(firstNameLocator).getText().contains(newUserName));
-		Assert.assertTrue(driver.findElement(lastNameLocator).getText().contains(newPassword));
-		Assert.assertTrue(driver.findElement(employeeIdLocator).getText().contains(employeeId));
+		Assert.assertTrue(driver.findElement(firstNameLocator).getAttribute("value").contains(firstName));
+		Assert.assertTrue(driver.findElement(lastNameLocator).getAttribute("value").contains(lastName));
+		Assert.assertTrue(driver.findElement(employeeIdLocator).getAttribute("value").contains(employeeId));
+		
+		//click Immigration tab
+		driver.findElement(By.xpath("//a[text()='Immigration']")).click();
+		sleepInSecond(5);
+		
+		Assert.assertTrue(driver.getCurrentUrl().contains("pim/viewImmigration/empNumber"));
+		
+		driver.findElement(By.xpath("//h6[text()='Assigned Immigration Records']/parent::div//button")).click();
+		
+		driver.findElement(By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input")).sendKeys(passportNumber);
+		
+		driver.findElement(By.xpath("//label[text()='Comments']/parent::div/following-sibling::div/textarea")).sendKeys("new passport\nhas inputed");
+		
+		driver.findElement(By.xpath("//button[contains(.,'Save')]")).click();
 	}
 	
 	@Test
@@ -143,7 +159,12 @@ public class topic_06_Textbox_TextArea {
 		return emailValue;
 	}
 	
-	//@AfterClass
+	public int randomNumber() {
+		Random rnd = new Random();
+		return rnd.nextInt(9999);
+	}
+	
+	@AfterClass
 	public void AfterClass() {
 		driver.quit();
 	}
