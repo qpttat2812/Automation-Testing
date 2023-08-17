@@ -3,6 +3,7 @@ package webdriver;
 
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,14 @@ public class topic_06_Textbox_TextArea {
 	String lastName = "Pham";
 	String emailValue = getEmail();
 	String password = "123456";
+	String employeeId;
+	String loginUserName = "Admin";
+	String loginPassword = "admin123";
+	String newUserName = "quynhpham123";
+	String newPassword = "quynh123";
+	By firstNameLocator = By.name("firstName");
+	By lastNameLocator = By.name("lastName");
+	By employeeIdLocator = By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div");
 	
 	@BeforeClass
 	public void BeforeClass() {
@@ -38,7 +47,7 @@ public class topic_06_Textbox_TextArea {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 	
-	@Test
+	//@Test
 	public void TC_01_VerifyLoginInfo() {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
@@ -71,7 +80,47 @@ public class topic_06_Textbox_TextArea {
 
 	@Test
 	public void TC_02_VerifyEmployeeInfo() {
+		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 		
+		//login
+		driver.findElement(By.name("username")).sendKeys(loginUserName);
+		driver.findElement(By.name("password")).sendKeys(loginPassword);
+		driver.findElement(By.cssSelector(".oxd-button")).click();
+		sleepInSecond(1);
+		
+		Assert.assertEquals(driver.getCurrentUrl(), "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
+		
+		driver.findElement(By.xpath("//span[text()='PIM']")).click();
+		sleepInSecond(1);
+		
+		Assert.assertEquals(driver.getCurrentUrl(), "https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList");
+		
+		driver.findElement(By.xpath("//a[text()='Add Employee']")).click();
+		sleepInSecond(1);
+		
+		Assert.assertEquals(driver.getCurrentUrl(), "https://opensource-demo.orangehrmlive.com/web/index.php/pim/addEmployee");
+		
+		//input employee first name, lastname, choose create login details
+		driver.findElement(firstNameLocator).sendKeys(firstName);
+		driver.findElement(lastNameLocator).sendKeys(lastName);
+		
+		employeeId = driver.findElement(employeeIdLocator).getText();
+		
+		driver.findElement(By.xpath("//p[text()='Create Login Details']/parent::div//span")).click();
+		
+		//input create user detail
+		driver.findElement(By.xpath("//label[text()='Username']/parent::div/following-sibling::div")).sendKeys(newUserName);
+		driver.findElement(By.xpath("//label[text()='Password']/parent::div/following-sibling::div")).sendKeys(newPassword);
+		driver.findElement(By.xpath("//label[text()='Confirm Password']/parent::div/following-sibling::div")).sendKeys(newPassword);
+		driver.findElement(By.xpath("//button[contains(string(), 'Save')]")).click();
+		sleepInSecond(1);
+		
+		Assert.assertTrue(driver.getCurrentUrl().contains("pim/viewPersonalDetails/empNumber/"));
+		
+		//verify new info of user
+		Assert.assertTrue(driver.findElement(firstNameLocator).getText().contains(newUserName));
+		Assert.assertTrue(driver.findElement(lastNameLocator).getText().contains(newPassword));
+		Assert.assertTrue(driver.findElement(employeeIdLocator).getText().contains(employeeId));
 	}
 	
 	@Test
@@ -94,7 +143,7 @@ public class topic_06_Textbox_TextArea {
 		return emailValue;
 	}
 	
-	@AfterClass
+	//@AfterClass
 	public void AfterClass() {
 		driver.quit();
 	}
