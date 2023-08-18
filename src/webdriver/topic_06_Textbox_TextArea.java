@@ -15,6 +15,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.yaml.snakeyaml.tokens.CommentToken;
 
 public class topic_06_Textbox_TextArea {
 	WebDriver driver;
@@ -24,15 +25,21 @@ public class topic_06_Textbox_TextArea {
 	String lastName = "Pham";
 	String emailValue = getEmail();
 	String password = "123456";
-	String employeeId;
+	String employeeId = String.valueOf(randomNumber());
 	String loginUserName = "Admin";
 	String loginPassword = "admin123";
 	String newUserName = "quynhpham" + String.valueOf(randomNumber());
 	String newPassword = "quynh123";
 	String passportNumber = "1234-5678-9090";
+	String commentValue = "new passport\nhas inputed";
 	By firstNameLocator = By.name("firstName");
 	By lastNameLocator = By.name("lastName");
 	By employeeIdLocator = By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div/input");
+	By passportLocator = By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input");
+	By commentLocator = By.xpath("//label[text()='Comments']/parent::div/following-sibling::div/textarea");
+	By loginUserNameLocator = By.name("username");
+	By loginPasswordLocator = By.name("password");
+	By loginButtonLocator = By.cssSelector(".oxd-button");
 	
 	
 	@BeforeClass
@@ -84,9 +91,9 @@ public class topic_06_Textbox_TextArea {
 		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 		
 		//login
-		driver.findElement(By.name("username")).sendKeys(loginUserName);
-		driver.findElement(By.name("password")).sendKeys(loginPassword);
-		driver.findElement(By.cssSelector(".oxd-button")).click();
+		driver.findElement(loginUserNameLocator).sendKeys(loginUserName);
+		driver.findElement(loginPasswordLocator).sendKeys(loginPassword);
+		driver.findElement(loginButtonLocator).click();
 		sleepInSecond(1);
 		
 		Assert.assertEquals(driver.getCurrentUrl(), "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
@@ -105,10 +112,11 @@ public class topic_06_Textbox_TextArea {
 		//input employee first name, lastname, choose create login details
 		driver.findElement(firstNameLocator).sendKeys(firstName);
 		driver.findElement(lastNameLocator).sendKeys(lastName);
-		
-		employeeId = driver.findElement(employeeIdLocator).getAttribute("value");
+		driver.findElement(employeeIdLocator).clear();
+		driver.findElement(employeeIdLocator).sendKeys(employeeId);
 		
 		driver.findElement(By.xpath("//p[text()='Create Login Details']/parent::div//span")).click();
+		sleepInSecond(3);
 		
 		//input create user detail
 		driver.findElement(By.xpath("//label[text()='Username']/parent::div/following-sibling::div/input")).sendKeys(newUserName);
@@ -120,9 +128,9 @@ public class topic_06_Textbox_TextArea {
 		Assert.assertTrue(driver.getCurrentUrl().contains("pim/viewPersonalDetails/empNumber/"));
 		
 		//verify new info of user
-		Assert.assertTrue(driver.findElement(firstNameLocator).getAttribute("value").contains(firstName));
-		Assert.assertTrue(driver.findElement(lastNameLocator).getAttribute("value").contains(lastName));
-		Assert.assertTrue(driver.findElement(employeeIdLocator).getAttribute("value").contains(employeeId));
+		Assert.assertEquals(driver.findElement(firstNameLocator).getAttribute("value"),firstName);
+		Assert.assertEquals(driver.findElement(lastNameLocator).getAttribute("value"), lastName);
+		Assert.assertEquals(driver.findElement(employeeIdLocator).getAttribute("value"), employeeId);
 		
 		//click Immigration tab
 		driver.findElement(By.xpath("//a[text()='Immigration']")).click();
@@ -132,11 +140,41 @@ public class topic_06_Textbox_TextArea {
 		
 		driver.findElement(By.xpath("//h6[text()='Assigned Immigration Records']/parent::div//button")).click();
 		
-		driver.findElement(By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input")).sendKeys(passportNumber);
+		driver.findElement(passportLocator).sendKeys(passportNumber);
 		
-		driver.findElement(By.xpath("//label[text()='Comments']/parent::div/following-sibling::div/textarea")).sendKeys("new passport\nhas inputed");
+		driver.findElement(commentLocator).sendKeys(commentValue);
 		
 		driver.findElement(By.xpath("//button[contains(.,'Save')]")).click();
+		
+		//edit passport
+		driver.findElement(By.xpath("//div[text()='Actions']/ancestor::div[@class='oxd-table']//i[contains(@class,'pencil')]/parent::button")).click();
+		sleepInSecond(5);
+		
+		Assert.assertEquals(driver.findElement(passportLocator).getAttribute("_value"), passportNumber);
+		Assert.assertEquals(driver.findElement(commentLocator).getAttribute("_value"), commentValue);
+
+		//logout
+		driver.findElement(By.xpath("//span[@class='oxd-userdropdown-tab']")).click();
+		if (driver.findElement(By.xpath("//ul[@class='oxd-dropdown-menu']")).isDisplayed()) {
+			driver.findElement(By.xpath("//a[text()='Logout']")).click();
+		}
+		
+		
+		//login the second time with new account
+		driver.findElement(loginUserNameLocator).sendKeys(newUserName);
+		driver.findElement(loginPasswordLocator).sendKeys(newPassword);
+		driver.findElement(loginButtonLocator).click();
+		sleepInSecond(5);
+		
+		Assert.assertEquals(driver.getCurrentUrl(), "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
+		
+		driver.findElement(By.xpath("//span[text()='My Info']")).click();
+		sleepInSecond(5);
+		
+		Assert.assertEquals(driver.findElement(firstNameLocator).getAttribute("_value"), firstName);
+		Assert.assertEquals(driver.findElement(lastNameLocator).getAttribute("_value"), lastName);
+		Assert.assertEquals(driver.findElement(employeeIdLocator).getAttribute("_value"), employeeId);
+		
 	}
 	
 	@Test
@@ -164,7 +202,7 @@ public class topic_06_Textbox_TextArea {
 		return rnd.nextInt(9999);
 	}
 	
-	@AfterClass
+	//@AfterClass
 	public void AfterClass() {
 		driver.quit();
 	}
