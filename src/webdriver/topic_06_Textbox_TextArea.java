@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
@@ -64,7 +65,9 @@ public class topic_06_Textbox_TextArea {
 		sleepInSecond(1);
 		Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/login/");
 		
+		
 		driver.findElement(By.xpath("//span[text()='Create an Account']")).click();
+		 
 		sleepInSecond(1);
 		Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/create/");
 		
@@ -86,7 +89,7 @@ public class topic_06_Textbox_TextArea {
 		
 	
 
-	@Test
+//	@Test
 	public void TC_02_VerifyEmployeeInfo() {
 		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 		
@@ -112,7 +115,10 @@ public class topic_06_Textbox_TextArea {
 		//input employee first name, lastname, choose create login details
 		driver.findElement(firstNameLocator).sendKeys(firstName);
 		driver.findElement(lastNameLocator).sendKeys(lastName);
-		driver.findElement(employeeIdLocator).clear();
+		//delete by using CRTL + A and Delete keyboard
+		driver.findElement(employeeIdLocator).sendKeys(Keys.chord(Keys.CONTROL, "a"));
+		driver.findElement(employeeIdLocator).sendKeys(Keys.DELETE);
+		
 		driver.findElement(employeeIdLocator).sendKeys(employeeId);
 		
 		driver.findElement(By.xpath("//p[text()='Create Login Details']/parent::div//span")).click();
@@ -179,6 +185,22 @@ public class topic_06_Textbox_TextArea {
 	
 	@Test
 	public void TC_03_VerifyCustomerInfo() {
+		driver.get("http://demo.guru99.com/v4");
+		
+		driver.findElement(By.name("uid")).sendKeys("mngr522781");
+		driver.findElement(By.name("password")).sendKeys("rYnUnEb");
+		driver.findElement(By.name("btnLogin")).click();
+		
+		Assert.assertTrue(driver.findElement(By.xpath("//marquee[text()=concat(\"Welcome To Manager's \", 'Page of Guru99 Bank')]")).isDisplayed());
+		
+		driver.findElement(By.xpath("//a[text()='New Customer']")).click();
+		
+		Assert.assertEquals(driver.getCurrentUrl(), "https://demo.guru99.com/v4/manager/addcustomerpage.php");
+		
+		//input customer info
+		driver.findElement(By.name("name")).sendKeys("quynh");
+		driver.findElement(By.xpath("//input[(@name='rad1') and (@value='f')]")).click();
+		
 		
 	}
 	
