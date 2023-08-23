@@ -9,8 +9,10 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -34,7 +36,7 @@ public class topic_06_Textbox_TextArea {
 	String passportNumber = "1234-5678-9090";
 	String commentValue = "new passport\nhas inputed";
 	By firstNameLocator = By.name("firstName");
-	By lastNameLocator = By.name("lastName");
+	By lastNameLocator = By.name("lastName");	
 	By employeeIdLocator = By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div/input");
 	By passportLocator = By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input");
 	By commentLocator = By.xpath("//label[text()='Comments']/parent::div/following-sibling::div/textarea");
@@ -42,6 +44,16 @@ public class topic_06_Textbox_TextArea {
 	By loginPasswordLocator = By.name("password");
 	By loginButtonLocator = By.cssSelector(".oxd-button");
 	
+	//declare variables
+	String newCustomerName = "quynh";
+	String gender = "female";
+	String dateOfBirth = "12/11/1999";
+	String address = "153 Hoang Dieu 2";
+	String city = "TP HCM";
+	String state = "Thu Duc";
+	String pin = "123456";
+	String telephoneNumber = "0987123456";
+	String email = getEmail();
 	
 	@BeforeClass
 	public void BeforeClass() {
@@ -198,10 +210,32 @@ public class topic_06_Textbox_TextArea {
 		Assert.assertEquals(driver.getCurrentUrl(), "https://demo.guru99.com/v4/manager/addcustomerpage.php");
 		
 		//input customer info
-		driver.findElement(By.name("name")).sendKeys("quynh");
+		driver.findElement(By.name("name")).sendKeys(newCustomerName);
 		driver.findElement(By.xpath("//input[(@name='rad1') and (@value='f')]")).click();
+		removeAttribute(driver.findElement(By.name("dob")));
+		driver.findElement(By.name("dob")).sendKeys(dateOfBirth);
+		driver.findElement(By.name("addr")).sendKeys(address);
+		driver.findElement(By.name("city")).sendKeys(city);
+		driver.findElement(By.name("state")).sendKeys(state);
+		driver.findElement(By.name("pinno")).sendKeys(pin);
+		driver.findElement(By.name("telephoneno")).sendKeys(telephoneNumber);
+		driver.findElement(By.name("emailid")).sendKeys(email);
+		driver.findElement(By.name("password")).sendKeys(password);
+		driver.findElement(By.name("sub")).click();
+		sleepInSecond(5);
 		
+		//Verify customer info
+		Assert.assertEquals(driver.findElement(By.cssSelector("p.heading3")).getText(), "Customer Registered Successfully!!!");
+		Assert.assertTrue((driver.findElement(By.xpath("//td[text()='Customer ID']/following-sibling::td")).isDisplayed()));
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Customer Name']/following-sibling::td")).getText(), newCustomerName);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Gender']/following-sibling::td")).getText(), gender);
 		
+	}
+	
+	
+	public void removeAttribute(WebElement element) {
+		JavascriptExecutor obj = (JavascriptExecutor) driver;
+		obj.executeScript("arguments[0].removeAttribute('type')", element);
 	}
 	
 	public void sleepInSecond(long seconds) {
