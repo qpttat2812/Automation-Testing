@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.Color;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -53,9 +54,9 @@ public class Topic_09_Button_Radio_Checkbox {
 	public void TC_02_DefaultCheckBox_RadioButton() {
 		driver.get("https://demos.telerik.com/kendo-ui/checkbox/index");
 		
-		checkSelectedCheckbox(driver.findElement(By.xpath("//label[text()='Dual-zone air conditioning']/preceding-sibling::input")));
+		selectedCheckbox(driver.findElement(By.xpath("//label[text()='Dual-zone air conditioning']/preceding-sibling::input")));
 		
-		checkUnSelectedCheckbox(driver.findElement(By.xpath("//label[text()='Dual-zone air conditioning']/preceding-sibling::input")));
+		unSelectedCheckbox(driver.findElement(By.xpath("//label[text()='Dual-zone air conditioning']/preceding-sibling::input")));
 		
 		driver.get("https://demos.telerik.com/kendo-ui/radiobutton/index");
 		WebElement radioButtonLocator = driver.findElement(By.xpath("//label[text()='2.0 Petrol, 147kW']/preceding-sibling::input"));
@@ -75,10 +76,10 @@ public class Topic_09_Button_Radio_Checkbox {
 		WebElement checkedOptionLocator = driver.findElement(By.xpath("//label[text()='Checked']/preceding-sibling::div/input"));
 		WebElement indeterminateOptionLocator = driver.findElement(By.xpath("//label[text()='Indeterminate']/preceding-sibling::div/input"));
 		
-		checkSelectedCheckbox(checkedOptionLocator);
-		checkSelectedCheckbox(indeterminateOptionLocator);
-		checkUnSelectedCheckbox(checkedOptionLocator);
-		checkUnSelectedCheckbox(indeterminateOptionLocator);
+		selectedCheckbox(checkedOptionLocator);
+		selectedCheckbox(indeterminateOptionLocator);
+		unSelectedCheckbox(checkedOptionLocator);
+		unSelectedCheckbox(indeterminateOptionLocator);
 		
 	}
 
@@ -93,15 +94,26 @@ public class Topic_09_Button_Radio_Checkbox {
 	public void TC_05_DefaultCheckBox_RadioButton() {
 		driver.get("https://docs.google.com/forms/d/e/1FAIpQLSfiypnd69zhuDkjKgqvpID9kwO29UCzeCVrGGtbNPZXQok0jA/viewform");
 		
-		WebElement cityLocator = driver.findElement(By.xpath("//span[text()='Cần Thơ']/preceding::div//div[@data-value='Cần Thơ']"));
+		WebElement cityLocator = driver.findElement(By.xpath("//div[@data-value='Cần Thơ']"));
+		//solution 1
 		if(cityLocator.getAttribute("aria-checked").equals("false")) {
 			cityLocator.click();
 		}
 		
 		Assert.assertTrue(cityLocator.getAttribute("aria-checked").equals("true"));
+		
+		//solution 2
+//		String checkStatus = "false";
+//		WebElement cityLocator = driver.findElement(By.xpath("//div[(@data-value='Cần Thơ') and (@aria-checked='" + checkStatus + "')]"));
+//		if(cityLocator.isDisplayed()) {
+//			cityLocator.click();
+//			checkStatus = "true";
+//		}
+//		Assert.assertTrue(cityLocator.isDisplayed());		
+		
 	}
 
-	public void checkSelectedCheckbox(WebElement element) {
+	public void selectedCheckbox(WebElement element) {
 		if (!element.isSelected()) {
 			element.click();
 		}
@@ -109,7 +121,7 @@ public class Topic_09_Button_Radio_Checkbox {
 		Assert.assertTrue(element.isSelected());
 	}
 
-	public void checkUnSelectedCheckbox(WebElement element) {
+	public void unSelectedCheckbox(WebElement element) {
 		if (element.isSelected()) {
 			element.click();
 		}
@@ -139,7 +151,7 @@ public class Topic_09_Button_Radio_Checkbox {
 		}
 	}
 
-//	@AfterClass
+	@AfterClass
 	public void AfterClass() {
 		driver.quit();
 	}
