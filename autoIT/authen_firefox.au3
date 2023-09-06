@@ -1,0 +1,8 @@
+WinWaitActive("Authentication Required", "")
+Send($CmdLine[1])
+Sleep(1000)
+Send("{TAB}")
+Send($CmdLine[2])
+Sleep(1000)
+Send("{ENTER}")
+Sleep(1000)

@@ -31,7 +31,7 @@ public class Topic_09_Button_Radio_Checkbox {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
-//	@Test
+	@Test
 	public void TC_01_Button() {
 		driver.get("https://www.fahasa.com/customer/account/create");
 
@@ -50,7 +50,7 @@ public class Topic_09_Button_Radio_Checkbox {
 		Assert.assertEquals(loginButtonColor.asHex().toUpperCase(), "#C92127");
 	}
 
-//	@Test
+	@Test
 	public void TC_02_DefaultCheckBox_RadioButton() {
 		driver.get("https://demos.telerik.com/kendo-ui/checkbox/index");
 		
@@ -65,7 +65,7 @@ public class Topic_09_Button_Radio_Checkbox {
 		checkSelectedRadioButton(radioButtonLocator);
 	}
 
-//	@Test
+	@Test
 	public void TC_03_DefaultCheckBox_RadioButton() {
 		driver.get("https://material.angular.io/components/radio/examples");
 		
@@ -83,7 +83,7 @@ public class Topic_09_Button_Radio_Checkbox {
 		
 	}
 
-//	@Test
+	@Test
 	public void TC_04_DefaultCheckBox_RadioButton() {
 		driver.get("https://tiemchungcovid19.gov.vn/portal/register-person");
 		clickToElementJS(driver.findElement(By.xpath("//div[(text()= 'Đăng ký cho người thân')]/preceding-sibling::div/input")));
