@@ -4,15 +4,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.By.ByCssSelector;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -21,6 +22,7 @@ public class Topic_08_Custom_Dropdownlist_1 {
 	String projectPath = System.getProperty("user.dir");
 	String osName = System.getProperty("os.name");
 	WebDriverWait explicitWait;
+	Actions action;
 
 	@BeforeClass
 	public void BeforeClass() {
@@ -34,6 +36,7 @@ public class Topic_08_Custom_Dropdownlist_1 {
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		explicitWait = new WebDriverWait(driver, 30);
+		action = new Actions(driver);
 	}
 
 //	@Test
@@ -124,36 +127,27 @@ public class Topic_08_Custom_Dropdownlist_1 {
 
 	}
 
-//	@Test
-	//updating later
+	@Test
 	public void TC_07_AngularCustomDropdownList() {
 		driver.get("https://tiemchungcovid19.gov.vn/portal/register-person");
+		sleepInSecond(5);
 		scrollIntoView(driver.findElement(By.cssSelector("button.btn-outline-danger")));
 		
+		sleepInSecond(5);
 		//city
-		WebElement parentDropdown = driver.findElement(By.xpath("//ng-select[@formcontrolname='provinceCode']"));
-		clickToElement(parentDropdown);
+		selectItemInDropdownlist("ng-select[formcontrolname='provinceCode'] span.ng-arrow-wrapper", "div[role='option'] span.ng-option-label", "Thành phố Đà Nẵng");
+		sleepInSecond(5);
 		
-		explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[contains(@class,'ng-dropdown-panel-items')]//span")));
-		WebElement expectedCityElement = driver.findElement(By.xpath("//div[contains(@class,'ng-dropdown-panel-items')]//span[text()='Thành phố Đà Nẵng']"));
-		clickToElement(expectedCityElement);
+		//state
+		selectItemInDropdownlist("ng-select[formcontrolname='districtCode'] span.ng-arrow-wrapper", "div[role='option'] span.ng-option-label", "Quận Sơn Trà");
+		sleepInSecond(5);
 		
-		//district
-		driver.findElement(By.xpath("//label[text()='Quận/Huyện']/parent::div//input[@role='combobox']")).click();
-		
-		WebElement expectedDistrictElement = driver.findElement(By.xpath("//div[contains(@class,'ng-dropdown-panel-items')]//span[text()='Quận Sơn Trà']"));
-		clickToElement(expectedDistrictElement);
-
-		//Ward
-		driver.findElement(By.xpath("//label[text()='Xã/Phường']/parent::div//input[@role='combobox']")).click();
-		
-		WebElement expectedWardElement = driver.findElement(By.xpath("//div[contains(@class,'ng-dropdown-panel-items')]//span[text()='Phường Thanh Khê Tây']"));
-		clickToElement(expectedWardElement);
-
+		//ward
+		selectItemInDropdownlist("ng-select[formcontrolname='wardCode'] span.ng-arrow-wrapper", "div[role='option'] span.ng-option-label", "Phường Phước Mỹ");
+		sleepInSecond(5);
 	}
 	
 	@Test
-//	updating later
 	public void TC_08_MultipleSelect() {
 		driver.get("http://multiple-select.wenzhixin.net.cn/templates/template.html?v=189&url=basic.html");
 	}
@@ -177,7 +171,7 @@ public class Topic_08_Custom_Dropdownlist_1 {
 
 		for (WebElement element : dropDownElements) {
 			if (element.getText().trim().equals(expectedValue)) {
-				element.click();
+				clickToElement(element);
 				break;
 			}
 		}
@@ -207,7 +201,7 @@ public class Topic_08_Custom_Dropdownlist_1 {
 		}
 	}
 
-//	@AfterClass
+	@AfterClass
 	public void AfterClass() {
 		driver.quit();
 	}
