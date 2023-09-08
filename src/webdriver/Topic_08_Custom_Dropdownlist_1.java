@@ -1,5 +1,6 @@
 package webdriver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +24,11 @@ public class Topic_08_Custom_Dropdownlist_1 {
 	String osName = System.getProperty("os.name");
 	WebDriverWait explicitWait;
 	Actions action;
-
+	
+	String[] expectedMonthArr_1 = { "March", "June", "September" };
+	String[] expectedMonthArr_2 = { "March", "June", "September", "October", "November" };
+	String[] expectedMonthArr_3 = { "[Select all]" };
+	
 	@BeforeClass
 	public void BeforeClass() {
 		if (osName.contains("Window")) {
@@ -100,7 +105,6 @@ public class Topic_08_Custom_Dropdownlist_1 {
 	}
 
 //	@Test
-	//updating later
 	public void TC_06_JqueryCustomDropdown() {
 		driver.get("https://www.honda.com.vn/o-to/du-toan-chi-phi");
 
@@ -127,31 +131,83 @@ public class Topic_08_Custom_Dropdownlist_1 {
 
 	}
 
-	@Test
+//	@Test
 	public void TC_07_AngularCustomDropdownList() {
 		driver.get("https://tiemchungcovid19.gov.vn/portal/register-person");
 		sleepInSecond(5);
 		scrollIntoView(driver.findElement(By.cssSelector("button.btn-outline-danger")));
-		
+
 		sleepInSecond(5);
-		//city
+		// city
 		selectItemInDropdownlist("ng-select[formcontrolname='provinceCode'] span.ng-arrow-wrapper", "div[role='option'] span.ng-option-label", "Thành phố Đà Nẵng");
 		sleepInSecond(5);
-		
-		//state
+
+		// state
 		selectItemInDropdownlist("ng-select[formcontrolname='districtCode'] span.ng-arrow-wrapper", "div[role='option'] span.ng-option-label", "Quận Sơn Trà");
 		sleepInSecond(5);
-		
-		//ward
+
+		// ward
 		selectItemInDropdownlist("ng-select[formcontrolname='wardCode'] span.ng-arrow-wrapper", "div[role='option'] span.ng-option-label", "Phường Phước Mỹ");
 		sleepInSecond(5);
 	}
-	
-	@Test
-	public void TC_08_MultipleSelect() {
-		driver.get("http://multiple-select.wenzhixin.net.cn/templates/template.html?v=189&url=basic.html");
-	}
 
+	@Test
+	public void TC_08_MultipleSelectRaw() {
+
+		driver.get("http://multiple-select.wenzhixin.net.cn/templates/template.html?v=189&url=basic.html");
+		sleepInSecond(5);
+
+		// javascript executor
+//		clickToElement(driver.findElement(By.xpath("(//div[contains(@class,'multiple-select')])[position()=1]/button")));
+		clickToElement(driver.findElement(By.cssSelector("div.form-group:nth-of-type(2) div.multiple-select>button")));
+
+		sleepInSecond(5);
+		Assert.assertTrue(driver.findElement(By.xpath("(//div[contains(@class,'multiple-select')])[position()=1]")).getAttribute("class").contains("ms-parent-open"));
+
+		List<WebElement> monthList = driver.findElements(By.cssSelector("div.form-group:nth-of-type(2) div.ms-drop span"));
+//		List<WebElement> monthList = driver.findElements(By.xpath("(//div[contains(@class, 'ms-drop')])[position()=1]//span"));
+
+		int countSelectedMonth = 0;
+		for (WebElement month : monthList) {
+			for (int i = 0; i < expectedMonthArr_1.length; i++) {
+				if (month.getText().equals(expectedMonthArr_1[i])) {
+					clickToElement(month);
+//					sleepInSecond(3);
+					countSelectedMonth++;
+				}
+			}
+		}
+
+		String selectedMonthList = driver.findElement(By.cssSelector("div.form-group:nth-of-type(2) button>span")).getText();
+
+		String expectedMonthResult = String.join(", ", expectedMonthArr_1);
+
+		boolean selectAllFlag = false;
+		if (expectedMonthArr_1.length <= 3) {
+			for (int k = 0; k < expectedMonthArr_1.length; k++) {
+				if (expectedMonthArr_1[k].equals("[Select all]")) {
+					selectAllFlag = true;
+					break;
+				}
+			}
+			if (selectAllFlag == false) {
+				Assert.assertEquals(selectedMonthList, expectedMonthResult);
+				System.out.println("===== Less than or equal to 3 is executed!!! ======");
+			} else {
+				Assert.assertEquals(selectedMonthList, "All selected");
+				System.out.println("===== All selected is executed!!! ======");
+			}
+		} 
+		else if ((expectedMonthArr_1.length > 3) && (expectedMonthArr_1.length < 12))
+
+		{
+			Assert.assertEquals(selectedMonthList, String.format("%d of 12 selected", countSelectedMonth));
+			System.out.println(String.format("%d of 12 selected", countSelectedMonth));
+			System.out.println("===== Greather than 4 and less than 12 is executed!!! ======");
+		}
+
+	}
+	
 	public void scrollIntoView(WebElement element) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].scrollIntoView(false)", element);
@@ -192,6 +248,7 @@ public class Topic_08_Custom_Dropdownlist_1 {
 		}
 	}
 	
+
 	public void sleepInSecond(long second) {
 		try {
 			Thread.sleep(second * 1000);
