@@ -1,5 +1,6 @@
 package webdriver;
 
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +38,7 @@ public class Topic_17_Popup_Random {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
-//	@Test
+	@Test
 	public void TC_01_RandomInDOM() {
 		driver.get("https://www.javacodegeeks.com/");
 		sleepInSecond(20);
@@ -59,7 +60,7 @@ public class Topic_17_Popup_Random {
 
 	}
 
-//	@Test
+	@Test
 	public void TC_02_RandomInDOM() {
 		driver.get("https://vnk.edu.vn/");
 		sleepInSecond(30);
@@ -102,7 +103,8 @@ public class Topic_17_Popup_Random {
 			driver.switchTo().defaultContent();
 		}
 		
-		if (driver.findElement(By.cssSelector("div.popup-content")).isDisplayed()) {
+		List<WebElement> popupList = driver.findElements(By.cssSelector("section#popup>div.popup-content"));
+		if (popupList.size() > 0 && popupList.get(0).isDisplayed()) {
 			driver.findElement(By.cssSelector("button.close")).click();
 			sleepInSecond(3);
 		}
