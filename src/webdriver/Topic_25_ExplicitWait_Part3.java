@@ -1,5 +1,7 @@
 package webdriver;
 
+import java.util.Date;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -91,11 +93,17 @@ public class Topic_25_ExplicitWait_Part3 {
 		//wait for loading icon invisibility
 		explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.mainUploadInitInfo div.spinner-border")));
 		
+		System.out.println("Start time 1: " + showTime());
 		//wait for uploading progress bars are invisibility
 		explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.progress-bar")));
+		System.out.println("End time 1: " + showTime());
 		
+		System.out.println("Start time 2: " + showTime());
 		//wait for message is visible and verify
 		Assert.assertTrue(explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'mainUploadSuccess')]//div[contains(text(),'Your files have been successfully uploaded')]"))).isDisplayed());
+		//another check verify message
+//		Assert.assertTrue(explicitWait.until(ExpectedConditions.textToBe(By.xpath("//div[contains(@class,'mainUploadSuccess')]//div"), "Your files have been successfully uploaded")));
+		System.out.println("End time 2: " + showTime());
 		
 		//click on download link
 		driver.findElement(By.cssSelector("div.mainUploadSuccessLink a")).click();
@@ -110,6 +118,11 @@ public class Topic_25_ExplicitWait_Part3 {
 		//wait for play button visible and verify
 		Assert.assertTrue(explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + image_1 + "']/parent::a/parent::div/following-sibling::div//button//span[text()='Play']"))).isDisplayed());
 		Assert.assertTrue(explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + image_2 +"']/parent::a/parent::div/following-sibling::div//button//span[text()='Play']"))).isDisplayed());
+	}
+	
+	public String showTime() {
+		Date date = new Date();
+		return date.toString();
 	}
 	
 	@AfterClass
