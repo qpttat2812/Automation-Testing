@@ -34,7 +34,7 @@ public class Topic_27_FluentWait {
 		driver.manage().window().maximize();
 	}
 	
-	@Test 
+//	@Test 
 	public void TC_01_FluentWait() {
 		driver.get("https://automationfc.github.io/fluent-wait/");
 		
@@ -44,16 +44,53 @@ public class Topic_27_FluentWait {
 		.pollingEvery(Duration.ofSeconds(1))
 		.ignoring(NoSuchElementException.class);
 		
-		String textResult = fluentWait.until(new Function<WebDriver, String>() {
+		//solution 1
+//		String textResult = fluentWait.until(new Function<WebDriver, String>() {
+//
+//			@Override
+//			public String apply(WebDriver t) {
+//				return driver.findElement(By.xpath("//div[@id='javascript_countdown_time' and text()='01:01:00']")).getText();
+//			}
+//			
+//		});
+//	
+//		Assert.assertEquals(textResult, "01:01:00");
+		
+		//solution 2
+		
+		boolean textResult = fluentWait.until(new Function<WebDriver, Boolean>() {
 
 			@Override
-			public String apply(WebDriver t) {
-				return driver.findElement(By.xpath("//div[@id='javascript_countdown_time' and text()='01:01:00']")).getText();
+			public Boolean apply(WebDriver driver) {
+				return driver.findElement(By.xpath("//div[@id='javascript_countdown_time' and text()='01:01:00']")).isDisplayed();
 			}
 			
 		});
+		
+		Assert.assertTrue(textResult);
+		
+	}
 	
-		Assert.assertEquals(textResult, "01:01:00");
+	@Test
+	public void TC_02_FluentWait() {
+		driver.get("https://automationfc.github.io/dynamic-loading/");
+		fluentWait = new FluentWait<WebDriver>(driver);
+		
+		driver.findElement(By.xpath("//button[text()='Start']")).click();
+		fluentWait.withTimeout(Duration.ofSeconds(5))
+					.pollingEvery(Duration.ofSeconds(1))
+					.ignoring(NoSuchElementException.class);
+		
+		boolean textResult = fluentWait.until(new Function<WebDriver,Boolean>(){
+
+			@Override
+			public Boolean apply(WebDriver driver) {
+				return driver.findElement(By.xpath("//div[@id='finish']/h4[text()='Hello World!']")).isDisplayed();
+			}
+			
+		});
+		
+		Assert.assertTrue(textResult);
 	}
 	
 	@AfterClass
