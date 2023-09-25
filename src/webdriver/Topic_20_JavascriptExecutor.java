@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.accessibility.AccessibleStateSet;
 
-import org.openqa.grid.internal.exception.NewSessionException;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;

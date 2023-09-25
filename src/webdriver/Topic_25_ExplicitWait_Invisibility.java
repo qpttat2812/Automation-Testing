@@ -1,5 +1,7 @@
 package webdriver;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -32,7 +34,7 @@ public class Topic_25_ExplicitWait_Invisibility {
 	@Test
 	public void TC_01_ExplicitWait_InvisibleElement_NotEnoughTime() {
 		driver.get("https://automationfc.github.io/dynamic-loading/");
-		explicitWait = new WebDriverWait(driver, 3);
+		explicitWait =new WebDriverWait(driver, Duration.ofSeconds(3));
 		
 		driver.findElement(By.xpath("//button[text()='Start']")).click();
 		
@@ -44,7 +46,7 @@ public class Topic_25_ExplicitWait_Invisibility {
 	@Test
 	public void TC_02_ExplicitWait_InvisibleElement_EnoughTime() {
 		driver.get("https://automationfc.github.io/dynamic-loading/");
-		explicitWait = new WebDriverWait(driver, 5);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		
 		driver.findElement(By.xpath("//button[text()='Start']")).click();
 		
@@ -56,7 +58,7 @@ public class Topic_25_ExplicitWait_Invisibility {
 	@Test
 	public void TC_03_ExplicitWait_InvisibleElement_MoreTime() {
 		driver.get("https://automationfc.github.io/dynamic-loading/");
-		explicitWait = new WebDriverWait(driver, 15);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 		
 		driver.findElement(By.xpath("//button[text()='Start']")).click();
 		

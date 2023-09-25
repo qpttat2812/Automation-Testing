@@ -1,5 +1,6 @@
 package webdriver;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -35,7 +36,7 @@ public class Topic_28_PageLoad {
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		action = new Actions(driver);
-		explicitWait = new WebDriverWait(driver, 30);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
 	}
 
 //	@Test
@@ -69,7 +70,7 @@ public class Topic_28_PageLoad {
 	}
 
 	public boolean isPageLoadedSuccess() {
-		WebDriverWait explicitWait = new WebDriverWait(driver, 30);
+		WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 		ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
 			@Override

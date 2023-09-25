@@ -1,5 +1,6 @@
 package webdriver;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By.ByCssSelector;
@@ -31,7 +32,7 @@ public class Topic_23_DemoWait {
 		driver = new FirefoxDriver();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		explicitWait = new WebDriverWait(driver, 10);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
 	}
 
 	@Test

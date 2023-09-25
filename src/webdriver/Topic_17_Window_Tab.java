@@ -2,6 +2,7 @@ package webdriver;
 
 import static org.testng.Assert.assertEquals;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -39,7 +40,7 @@ public class Topic_17_Window_Tab {
 		driver = new FirefoxDriver();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		explicitWait = new WebDriverWait(driver, 30);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		action = new Actions(driver);
 	}
 

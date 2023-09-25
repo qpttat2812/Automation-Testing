@@ -1,5 +1,6 @@
 package webdriver;
 
+import java.time.Duration;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -48,7 +49,7 @@ public class Topic_26_Demo_MixWaits {
 //	@Test 
 	public void TC_02_ExplicitWait_Only() {
 		driver.get("https://www.facebook.com/");
-		explicitWait = new WebDriverWait(driver, 10);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		
 		System.out.println("Start time 2 = " + showTime());
 		try {
@@ -64,7 +65,7 @@ public class Topic_26_Demo_MixWaits {
 	public void TC_03_MixWaits_Equals() {
 		driver.get("https://www.facebook.com/");
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		explicitWait = new WebDriverWait(driver, 10);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		
 		System.out.println("Start time 3 = " + showTime());
 		try {
@@ -80,7 +81,7 @@ public class Topic_26_Demo_MixWaits {
 	public void TC_04_MixWaits_LessThan() {
 		driver.get("https://www.facebook.com/");
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		explicitWait = new WebDriverWait(driver, 10);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		
 		System.out.println("Start time 4 = " + showTime());
 		try {
@@ -97,7 +98,7 @@ public class Topic_26_Demo_MixWaits {
 	public void TC_05_MixWaits_GreaterThan() {
 		driver.get("https://www.facebook.com/");
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		explicitWait = new WebDriverWait(driver, 5);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		
 		System.out.println("Start time 5 = " + showTime());
 		try {
@@ -113,7 +114,7 @@ public class Topic_26_Demo_MixWaits {
 	public void TC_06_MixWaits_UseWebElement() {
 		driver.get("https://www.facebook.com/");
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		explicitWait = new WebDriverWait(driver, 5);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		
 		System.out.println("Start time 6 = " + showTime());
 		try {
@@ -130,7 +131,7 @@ public class Topic_26_Demo_MixWaits {
 	public void TC_07_MixWaits_UseWebElement() {
 		driver.get("https://www.facebook.com/");
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		explicitWait = new WebDriverWait(driver, 5);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		
 		System.out.println("Start time 7 = " + showTime());
 		try {

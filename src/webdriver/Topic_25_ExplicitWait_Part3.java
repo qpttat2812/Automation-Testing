@@ -1,5 +1,6 @@
 package webdriver;
 
+import java.time.Duration;
 import java.util.Date;
 
 import org.openqa.selenium.By;
@@ -42,7 +43,7 @@ public class Topic_25_ExplicitWait_Part3 {
 	@Test
 	public void TC_01_DateTimePicker() {
 		driver.get("https://demos.telerik.com/aspnet-ajax/ajaxloadingpanel/functionality/explicit-show-hide/defaultcs.aspx");
-		explicitWait = new WebDriverWait(driver, 15);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 		
 		//wait for calendar visibility
 		explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#ctl00_ContentPlaceholder1_RadCalendar1")));
@@ -73,7 +74,7 @@ public class Topic_25_ExplicitWait_Part3 {
 	public void TC_02_UploadFiles() {
 		driver.get("https://gofile.io/welcome");
 		
-		explicitWait = new WebDriverWait(driver, 45);
+		explicitWait = new WebDriverWait(driver, Duration.ofSeconds(45));
 		
 		//wait for loading icon invisibility
 		explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.spinner-border")));
