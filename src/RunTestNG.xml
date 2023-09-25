@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suite parallel="false" name="Suite">
   <test name="Test">
-    <classes>
+	  <packages>
+		  <package name = "testng.demo.admin" />
+		  <package name = "testng.demo.user" />
+	  </packages>
+	  
+	  <groups>
+		  <run>
+			  <include name = "change" />
+<!--			  <include name = "view" />-->
+		  </run>
+	  </groups>
+<!--    <classes>
       <class name="testng.Topic_01_Annotation"/>
       <class name="testng.Topic_02_Annotation"/>
-    </classes>
+    </classes>-->
   </test> <!-- Test -->
 </suite> <!-- Suite -->
