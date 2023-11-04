@@ -1,10 +1,5 @@
 package webdriver;
 
-
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -15,10 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.yaml.snakeyaml.tokens.CommentToken;
 
 public class topic_06_Textbox_TextArea {
 	WebDriver driver;
